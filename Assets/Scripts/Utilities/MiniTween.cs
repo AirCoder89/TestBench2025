@@ -1,6 +1,6 @@
 using System;
 
-namespace TestBench2025.Core.Utilities
+namespace TestBench2025.Utilities
 {
     internal static class MiniTween
     {

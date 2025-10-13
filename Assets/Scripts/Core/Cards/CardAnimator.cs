@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using TestBench2025.Core.Utilities;
+using TestBench2025.Utilities;
 using UnityEngine;
 
 namespace TestBench2025.Core.Cards
@@ -37,6 +37,11 @@ namespace TestBench2025.Core.Cards
                 backFace.SetActive(true); 
                 StartCoroutine(FlipRoutine(90, 0, onComplete));
             }, startDelay));
+        }
+        
+        public void Matched(Action onComplete = null, float startDelay = 0f)
+        {
+            cardContent.gameObject.SetActive(false);
         }
 
         public void KillAnimation()

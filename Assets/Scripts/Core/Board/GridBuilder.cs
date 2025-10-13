@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TestBench2025.Core.Cards;
+using TestBench2025.Core.Game;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,11 +12,6 @@ namespace TestBench2025.Core.Board
     {
         [SerializeField] private CardController cardPrefab;
         [SerializeField] private List<CardData> cardPool;
-        
-        [Header("Cards Appearance")]
-        [SerializeField] private Color backgroundColor;
-        [SerializeField] private Color frontColor;
-        [SerializeField] private Color backColor;
         [SerializeField] private List<LayoutData> layouts;
         
         
@@ -52,8 +48,7 @@ namespace TestBench2025.Core.Board
             {
                 var cardData = cardsToUse[i];
                 var card = Instantiate(cardPrefab, transform);
-                card.UpdateCardColors(layout.backgroundColor, layout.frontColor, layout.backColor);
-                card.Initialize(cardData);
+                card.Initialize(cardData, layout.backgroundColor, layout.frontColor, layout.backColor);
             }
         }
         

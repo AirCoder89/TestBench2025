@@ -7,8 +7,6 @@ namespace TestBench2025.Core.Cards
     [CreateAssetMenu(fileName = "New Card Data", menuName = "TestBench2025/Card Data")]
     internal class CardData : ScriptableObject
     {
-        [HideInInspector] public CardState state;
-
         public string cardId;
         public Sprite symbol;
         
