@@ -1,4 +1,5 @@
 using System;
+using TestBench2025.Core.Game;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ namespace TestBench2025.Core.Cards
         public static event Action<CardController> OnCardFlipped;
         public static event Action<CardController> OnCardRevealed;
 
-        
+        public RectTransform holder;
         [SerializeField] private CardAnimator animator;
         [SerializeField] private Button cardBtn;
         [SerializeField] private Image cardSymbol;
@@ -17,6 +18,8 @@ namespace TestBench2025.Core.Cards
         [SerializeField] private Image cardFront;
         [SerializeField] private Image cardBack;
         
+        
+        private bool CanReveal => GameManager.Instance.LevelStarted && State == CardState.Hidden;
         public CardState State { get; private set; }
         public CardData Data { get; private set; }
 
@@ -24,13 +27,24 @@ namespace TestBench2025.Core.Cards
         {
             Data = data;
             cardSymbol.sprite = Data.symbol;
-            animator.Initialize();    
             UpdateCardColors(background, front, back);
+            animator.Initialize();   
             cardBtn.onClick.AddListener(OnTap);
             State = CardState.Hidden;
             cardBtn.interactable = true;
         }
 
+        public void PlayEntryAnimation(Vector2 relativeOrigin, float speed, float delay, Action onComplete = null)
+        {
+            animator.PlayEntryAnimation(relativeOrigin, speed, delay, onComplete);
+        }
+
+        public void PlayEntryReveal(float previewDuration, Action onComplete = null)
+        {
+            animator.PlayEntryReveal(previewDuration, onComplete);
+        }
+        
+        
         private void OnDestroy()
         {
             cardBtn.onClick.RemoveListener(OnTap);
@@ -45,7 +59,7 @@ namespace TestBench2025.Core.Cards
         
         private void OnTap()
         {
-            if(State != CardState.Hidden) return; // Ignore if not hidden
+            if (!CanReveal) return;
             
             State = CardState.Flipping;
             OnCardFlipped?.Invoke(this);

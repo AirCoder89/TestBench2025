@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TestBench2025.Core.Cards;
@@ -21,56 +22,56 @@ namespace TestBench2025.Core.Board
    
     internal class BoardController : MonoBehaviour
     {
+        public event Action OnLevelReady;
+        
         [SerializeField] private GridBuilder builder;
         [SerializeField] private float cardFlipBackDelay = 0.5F;
         [SerializeField] private float pairCheckDelay = 0.1F;
 
-        private CardController _tempCard;
+        private CardController _pendingCard;
         private readonly Queue<CardPair> _pendingPairs = new();
         private bool _isProcessing;
 
         public void Initialize()
         {
             CardController.OnCardRevealed += HandleCardRevealed;
+            builder.OnLevelReady += OnLevelReady;
             builder.Initialize();
         }
         
         private void OnDestroy()
         {
             CardController.OnCardRevealed -= HandleCardRevealed;
+            builder.OnLevelReady -= OnLevelReady;
         }
         
-        public void StartLevel(LevelDifficulty difficulty)
+        public void StartLevel(LevelData levelData)
         {
-            _tempCard = null;
+            _pendingCard = null;
             _pendingPairs.Clear();
             _isProcessing = false;
             
-            builder.Build(difficulty);
+            builder.Build(levelData);
         }
 
         private void HandleCardRevealed(CardController card)
         {
-            if (card.State == CardState.Matched)
-                return;
+            if (card.State == CardState.Matched) return;
+            
+            // prevent too many pending pairs
+            if (_isProcessing && _pendingPairs.Count > 3) return; 
 
-            // if we don't have a temp -> hold this one
-            if (_tempCard == null)
+            if (_pendingCard == null)
             {
-                _tempCard = card;
+                _pendingCard = card;
                 return;
             }
 
-            // if we already have a waiting card -> make a pair
-            if (_tempCard != null)
-            {
-                _pendingPairs.Enqueue(new CardPair(_tempCard, card));
-                _tempCard = null;
+            _pendingPairs.Enqueue(new CardPair(_pendingCard, card));
+            _pendingCard = null;
 
-                // start comparison if not already running
-                if (!_isProcessing)
-                    StartCoroutine(ProcessPairs());
-            }
+            if (!_isProcessing)
+                StartCoroutine(ProcessPairs());
         }
 
         private IEnumerator ProcessPairs()

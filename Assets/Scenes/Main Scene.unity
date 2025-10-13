@@ -367,8 +367,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1907321961}
   - {fileID: 1435924635}
+  - {fileID: 2135316857}
+  - {fileID: 1907321961}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -392,7 +393,7 @@ GameObject:
   - component: {fileID: 1435924636}
   - component: {fileID: 1435924638}
   m_Layer: 5
-  m_Name: Gameboard
+  m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,7 +412,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1016126180}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -494,46 +495,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 2023722194386907085, guid: 0d42c8ef89b5b4e3aa214afa0a72dfbf, type: 3}
   cardPool:
-  - {fileID: 11400000, guid: f39cddf52fd184e4c8d1d07e13ba0cc1, type: 2}
-  - {fileID: 11400000, guid: a516e9bfc4ce3427880f01df5bbaf50e, type: 2}
-  - {fileID: 11400000, guid: 37775f817db2049819c830a23c61ebbe, type: 2}
-  - {fileID: 11400000, guid: 856125b492f404346b8cad97c84eac30, type: 2}
-  - {fileID: 11400000, guid: 4e1220a50bfc64f4b8d2729108ba5567, type: 2}
-  - {fileID: 11400000, guid: 3fef8d8cf21ae458e933dc3e327cc445, type: 2}
-  - {fileID: 11400000, guid: dcf175e70e8be44639156818d6dc3f82, type: 2}
-  - {fileID: 11400000, guid: 2eb054e22cc124ffc8c7ed275c15b1d0, type: 2}
-  - {fileID: 11400000, guid: ee926274a494e42799cb446177aa94ee, type: 2}
-  - {fileID: 11400000, guid: 96bfff0cb43104926b51fb1cb50703e0, type: 2}
-  - {fileID: 11400000, guid: d9ed0c2984bbf4c768472251a307405f, type: 2}
-  - {fileID: 11400000, guid: 23b8858f9b98e4259afe9fcb757d8fa0, type: 2}
-  - {fileID: 11400000, guid: f2da1afa0bb464911bc2abd2bcdaf508, type: 2}
-  - {fileID: 11400000, guid: 7bdfd593df1744d94b6384e6034f0d2e, type: 2}
-  - {fileID: 11400000, guid: f0ed6b7ecd3bd43c680f0ff1f97042cf, type: 2}
-  layouts:
-  - difficulty: 0
-    cellSize: {x: 320, y: 380}
-    spacing: {x: 15, y: 15}
-    rows: 2
-    columns: 2
-    backgroundColor: {r: 1, g: 1, b: 1, a: 1}
-    frontColor: {r: 0.11764706, g: 0.34117648, b: 0.1764706, a: 0.4745098}
-    backColor: {r: 0.11764706, g: 0.36862746, b: 0.10980392, a: 1}
-  - difficulty: 1
-    cellSize: {x: 300, y: 350}
-    spacing: {x: 10, y: 10}
-    rows: 2
-    columns: 3
-    backgroundColor: {r: 1, g: 0.9019608, b: 0.88235295, a: 1}
-    frontColor: {r: 0.6784314, g: 0.46666667, b: 0.4117647, a: 0.4745098}
-    backColor: {r: 0.43529412, g: 0.14117648, b: 0.06666667, a: 1}
-  - difficulty: 2
-    cellSize: {x: 200, y: 180}
-    spacing: {x: 7, y: 7}
-    rows: 5
-    columns: 6
-    backgroundColor: {r: 0.8392157, g: 0.7490196, b: 1, a: 1}
-    frontColor: {r: 0.32156864, g: 0.2784314, b: 0.3882353, a: 0.4745098}
-    backColor: {r: 0.29803923, g: 0.18431373, b: 0.44313726, a: 1}
+  - cardId: cherry-card
+    symbol: {fileID: -1811605065, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: heart-card
+    symbol: {fileID: 1145257553, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: star-card
+    symbol: {fileID: -2117325824, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: watch-card
+    symbol: {fileID: -469766374, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: energy-card
+    symbol: {fileID: -336702448, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: green-diamond-card
+    symbol: {fileID: 460099538, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: purple-diamond-card
+    symbol: {fileID: -2021802486, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: square-candy-card
+    symbol: {fileID: 1025055002, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: flower-candy-card
+    symbol: {fileID: -153121858, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: orange-heart-candy-card
+    symbol: {fileID: 907123740, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: purple-candy-card
+    symbol: {fileID: -2102217343, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: purple-candy-card
+    symbol: {fileID: -2102217343, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: blue-candy1-card
+    symbol: {fileID: 152447811, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: blue-candy2-card
+    symbol: {fileID: 679409983, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  - cardId: red-candy-card
+    symbol: {fileID: 1066331412, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
+  animationPosition: {fileID: 2135316857}
+  entryAnimationSpeed: 2000
+  entryAnimationDelay: 0.05
 --- !u!114 &1435924640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,8 +540,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 531753b60a7d24466bd86e52f254c974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelDifficulty: 1
   builder: {fileID: 1435924639}
+  cardFlipBackDelay: 0.5
+  pairCheckDelay: 0.1
 --- !u!1 &1849491711
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +572,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17c611714b54bfc8f685d86b5a5dcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelDifficulty: 2
   boardController: {fileID: 1435924640}
+  levels:
+  - difficulty: 0
+    revealPreviewDuration: 2
+    layout:
+      cellSize: {x: 320, y: 380}
+      spacing: {x: 15, y: 15}
+      rows: 2
+      columns: 2
+    appearance:
+      boardColor: {r: 0, g: 0, b: 0, a: 0}
+      backgroundColor: {r: 0.84313726, g: 1, b: 0.7882353, a: 1}
+      frontColor: {r: 0.2627451, g: 0.3882353, b: 0.24313726, a: 0.4745098}
+      backColor: {r: 0.06666667, g: 0.3882353, b: 0.23529412, a: 1}
+  - difficulty: 1
+    revealPreviewDuration: 2
+    layout:
+      cellSize: {x: 300, y: 350}
+      spacing: {x: 10, y: 10}
+      rows: 2
+      columns: 3
+    appearance:
+      boardColor: {r: 0, g: 0, b: 0, a: 0}
+      backgroundColor: {r: 0.68235296, g: 0.8235294, b: 1, a: 1}
+      frontColor: {r: 0.09803922, g: 0.2901961, b: 0.5019608, a: 0.4745098}
+      backColor: {r: 0.07450981, g: 0.2509804, b: 0.4627451, a: 1}
+  - difficulty: 2
+    revealPreviewDuration: 3
+    layout:
+      cellSize: {x: 200, y: 180}
+      spacing: {x: 7, y: 7}
+      rows: 5
+      columns: 6
+    appearance:
+      boardColor: {r: 0, g: 0, b: 0, a: 0}
+      backgroundColor: {r: 0.92941177, g: 0.7882353, b: 1, a: 1}
+      frontColor: {r: 0.47058824, g: 0.27450982, b: 0.6117647, a: 0.4745098}
+      backColor: {r: 0.32941177, g: 0.13725491, b: 0.50980395, a: 1}
 --- !u!4 &1849491713
 Transform:
   m_ObjectHideFlags: 0
@@ -624,7 +657,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1016126180}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -669,3 +702,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1907321960}
   m_CullTransparentMesh: 1
+--- !u!1 &2135316856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2135316857}
+  m_Layer: 5
+  m_Name: Start Animation Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2135316857
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135316856}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1016126180}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: -333}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
