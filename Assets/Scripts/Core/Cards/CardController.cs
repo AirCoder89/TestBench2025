@@ -8,17 +8,27 @@ namespace TestBench2025.Core.Cards
     {
         [SerializeField] private CardAnimator animator;
         [SerializeField] private Button cardBtn;
-        [SerializeField] private CardData cardData;
+        [SerializeField] private Image cardSymbol;
+        [SerializeField] private Image cardBackground;
+        [SerializeField] private Image cardFront;
+        [SerializeField] private Image cardBack;
+        
+        
+        private CardData _cardData;
 
-        private void Start()
+        public void Initialize(CardData data)
         {
-            Initialize();
+            _cardData = data;
+            cardSymbol.sprite = _cardData.symbol;
+            animator.Initialize();    
             cardBtn.onClick.AddListener(OnTap);
         }
-
-        public void Initialize()
+        
+        public void UpdateCardColors(Color background, Color front, Color back)
         {
-            animator.Initialize();    
+            cardBackground.color = background;
+            cardFront.color = front;
+            cardBack.color = back;
         }
         
         private bool _isFlipped;
@@ -34,5 +44,7 @@ namespace TestBench2025.Core.Cards
                 animator.FlipToBack();
             }
         }
+        
+        
     }
 }

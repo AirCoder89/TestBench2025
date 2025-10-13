@@ -91,7 +91,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 82594076646571194}
   cardBtn: {fileID: 3382023150688514654}
-  cardData: {fileID: 0}
+  cardSymbol: {fileID: 8849864532496379895}
+  cardBackground: {fileID: 8849864532675332918}
+  cardFront: {fileID: 7122042209622644545}
+  cardBack: {fileID: 8849864531295351385}
 --- !u!114 &82594076646571194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19014749, g: 0.101960786, b: 0.62352943, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -303,8 +306,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -41.778, y: -119.4288}
+  m_AnchoredPosition: {x: 0, y: 2.8886719}
+  m_SizeDelta: {x: -41.778, y: -25.0652}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8849864532496379894
 CanvasRenderer:
@@ -336,7 +339,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: -336702448, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -498,7 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8820755, b: 0.97998375, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -576,7 +579,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3905590415877288574
 RectTransform:
   m_ObjectHideFlags: 0

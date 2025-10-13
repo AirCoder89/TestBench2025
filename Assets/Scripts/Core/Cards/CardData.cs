@@ -11,8 +11,6 @@ namespace TestBench2025.Core.Cards
 
         public string cardId;
         public Sprite symbol;
-        public Color backgroundColor;
-        public Color frontColor;
-        public Color backColor;
+        
     }
 }
