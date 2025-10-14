@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TestBench2025.Core.UI
 {
-    internal class GameplayUIController : MonoBehaviour
+    internal class GameplayUIController : UICanvasView
     {
         [SerializeField] private GameplayHUD hud;
         [SerializeField] private ComboEffectUI comboEffect;

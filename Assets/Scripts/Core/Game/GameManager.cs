@@ -41,6 +41,7 @@ namespace TestBench2025.Core.Game
                 return;
             }
             
+            ui.Initialize();
             ui.GoTo(UIState.Main);
             boardController.Initialize();
             scoreManager.Initialize();

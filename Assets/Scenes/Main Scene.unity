@@ -1263,6 +1263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 329858171}
+  - component: {fileID: 329858175}
   - component: {fileID: 329858174}
   - component: {fileID: 329858173}
   - component: {fileID: 329858172}
@@ -1346,6 +1347,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &329858175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 329858170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edfe1fddd6141f8ba34049a366265d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewType: 0
+  state: 6
 --- !u!1 &351199037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,6 +1909,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 410978584}
+  - component: {fileID: 410978588}
   - component: {fileID: 410978587}
   - component: {fileID: 410978586}
   - component: {fileID: 410978585}
@@ -1975,6 +1991,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1000
   m_TargetDisplay: 0
+--- !u!114 &410978588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410978583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edfe1fddd6141f8ba34049a366265d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewType: 0
+  state: 7
 --- !u!1 &421279002
 GameObject:
   m_ObjectHideFlags: 0
@@ -2740,6 +2770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 607759565}
+  - component: {fileID: 607759569}
   - component: {fileID: 607759568}
   - component: {fileID: 607759567}
   - component: {fileID: 607759566}
@@ -2821,6 +2852,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &607759569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607759564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edfe1fddd6141f8ba34049a366265d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewType: 0
+  state: 2
 --- !u!1 &614152467
 GameObject:
   m_ObjectHideFlags: 0
@@ -3551,6 +3596,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 885772204}
+  - component: {fileID: 885772208}
   - component: {fileID: 885772207}
   - component: {fileID: 885772206}
   - component: {fileID: 885772205}
@@ -3635,6 +3681,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &885772208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885772203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edfe1fddd6141f8ba34049a366265d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewType: 0
+  state: 4
 --- !u!1 &886106159
 GameObject:
   m_ObjectHideFlags: 0
@@ -4996,6 +5056,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3d0fab341f4491a335aa52058bff35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewType: 0
+  state: 3
   hud: {fileID: 1907321964}
   comboEffect: {fileID: 96768955}
 --- !u!1 &1262558010
@@ -5007,6 +5069,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1262558011}
+  - component: {fileID: 1262558015}
   - component: {fileID: 1262558014}
   - component: {fileID: 1262558013}
   - component: {fileID: 1262558012}
@@ -5089,6 +5152,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1262558015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262558010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edfe1fddd6141f8ba34049a366265d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewType: 1
+  state: 5
 --- !u!1 &1298486157
 GameObject:
   m_ObjectHideFlags: 0
@@ -5820,6 +5897,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1488585601}
+  - component: {fileID: 1488585605}
   - component: {fileID: 1488585604}
   - component: {fileID: 1488585603}
   - component: {fileID: 1488585602}
@@ -5902,6 +5980,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1488585605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488585600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edfe1fddd6141f8ba34049a366265d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewType: 0
+  state: 1
 --- !u!1 &1561294035
 GameObject:
   m_ObjectHideFlags: 0
@@ -7684,13 +7776,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc55f985aad477e9cc64cd969b828ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCanvas: {fileID: 1488585602}
-  settingsCanvas: {fileID: 607759566}
-  gameplayCanvas: {fileID: 1179939148}
-  levelSelectCanvas: {fileID: 885772205}
-  levelCompleteCanvas: {fileID: 329858172}
-  pausePanel: {fileID: 1262558012}
-  transitionCanvas: {fileID: 410978585}
+  allCanvases:
+  - {fileID: 1488585605}
+  - {fileID: 607759569}
+  - {fileID: 885772208}
+  - {fileID: 329858175}
+  - {fileID: 1179939151}
+  - {fileID: 1262558015}
+  - {fileID: 410978588}
+  transitionCanvas: {fileID: 410978588}
   fadeImage: {fileID: 1103907765}
   fadeDuration: 0.3
 --- !u!1 &2107125538
