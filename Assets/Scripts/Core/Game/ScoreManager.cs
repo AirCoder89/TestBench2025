@@ -1,5 +1,6 @@
 using System;
 using TestBench2025.Core.Board;
+using TestBench2025.Core.Game.Save;
 using UnityEngine;
 
 namespace TestBench2025.Core.Game
@@ -102,6 +103,21 @@ namespace TestBench2025.Core.Game
             Attempts = 0;
             Matches = 0;
             Coins = 0;
+            _comboCount = 0;
+            _comboActive = false;
+            _comboTimer = 0f;
+
+            OnCoinsChanged?.Invoke(Coins);
+            OnProgressChanged?.Invoke(Matches, Attempts);
+        }
+
+        public void LoadState(SavedGame savedGame)
+        {
+            if (savedGame == null) return;
+            
+            Attempts = savedGame.attempts;
+            Matches = savedGame.matches;
+            Coins = savedGame.coins;
             _comboCount = 0;
             _comboActive = false;
             _comboTimer = 0f;

@@ -41,6 +41,26 @@ namespace TestBench2025.Core.Cards
             animator.ResetCard();
         }
 
+        public void SetState(CardState state)
+        {
+            State = state;
+            if (state == CardState.Hidden)
+            {
+                cardBtn.interactable = true;
+                animator.FlipToBackImmediate();
+            }
+            else if (state == CardState.Revealed)
+            {
+                cardBtn.interactable = false;
+                animator.FlipToFrontImmediate();
+            }
+            else if (state == CardState.Matched)
+            {
+                cardBtn.interactable = false;
+                animator.MatchedImmediate();
+            }
+        }
+
         public void PlayEntryAnimation(Vector2 relativeOrigin, float speed, float delay, Action onComplete = null)
         {
             animator.PlayEntryAnimation(relativeOrigin, speed, delay, onComplete);

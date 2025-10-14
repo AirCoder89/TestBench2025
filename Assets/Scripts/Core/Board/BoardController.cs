@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TestBench2025.Core.Cards;
 using TestBench2025.Core.Game;
 using TestBench2025.Core.Game.Audio;
+using TestBench2025.Core.Game.Save;
 using UnityEngine;
 
 namespace TestBench2025.Core.Board
@@ -29,6 +30,7 @@ namespace TestBench2025.Core.Board
         public event Action OnLevelReady;
         public event Action OnLevelCompleted;
 
+        public GridBuilder Builder => builder;
         
         [SerializeField] private GridBuilder builder;
         [SerializeField] private float cardFlipBackDelay = 0.5F;
@@ -58,6 +60,15 @@ namespace TestBench2025.Core.Board
             _isProcessing = false;
             
             builder.Build(levelData);
+        }
+        
+        public void StartSavedLevel(LevelData levelData, SavedGame savedGame)
+        {
+            _pendingCard = null;
+            _pendingPairs.Clear();
+            _isProcessing = false;
+            
+            builder.BuildFromSave(levelData, savedGame);
         }
 
         private void HandleCardRevealed(CardController card)
@@ -136,5 +147,6 @@ namespace TestBench2025.Core.Board
             }
         }
 
+        
     }
 }

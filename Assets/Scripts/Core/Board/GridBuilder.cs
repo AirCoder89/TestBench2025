@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TestBench2025.Core.Cards;
 using TestBench2025.Core.Game;
-using TestBench2025.Core.Game.Audio;
+using TestBench2025.Core.Game.Save;
 using TestBench2025.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,15 +37,9 @@ namespace TestBench2025.Core.Board
         
         public IReadOnlyList<CardController> ActiveCards => _activeCards;
 
-
-        private void Awake()
-        {
-            _cardPool = new ObjectPool<CardController>(cardPrefab, preloadCount, transform);
-        }
-
         public void Initialize()
         {
-            
+            _cardPool = new ObjectPool<CardController>(cardPrefab, preloadCount, transform);
         }
 
         public void Build(LevelData levelData)
@@ -62,7 +56,6 @@ namespace TestBench2025.Core.Board
             cardsToUse = cardsToUse.OrderBy(x => Random.value).ToList();
 
             // Instantiate cards
-            
             var generatedCards = new List<CardController>();
             for (var i = 0; i < levelData.layout.TotalCards; i++)
             {
@@ -75,6 +68,35 @@ namespace TestBench2025.Core.Board
             _activeCards = generatedCards.OrderBy(e => e.transform.GetSiblingIndex()).ToList();
 
             StartCoroutine(PlayEntrySequence());
+        }
+        
+        public void BuildFromSave(LevelData levelData, SavedGame save)
+        {
+            ClearGrid();
+            
+            _currentLevelData = levelData;
+            SetupLayout(levelData.layout);
+            
+            var generatedCards = new List<CardController>();
+            for (var i = 0; i < save.cards.Count; i++)
+            {
+                var saveCard = save.cards[i];
+                var cardData = GetCardDataById(saveCard.cardId);
+                var card = _cardPool.Get();
+                card.Initialize(cardData, levelData.appearance.backgroundColor, levelData.appearance.frontColor, levelData.appearance.backColor);
+                card.SetState((CardState)saveCard.state);
+                generatedCards.Add(card);
+            }
+
+            _activeCards = generatedCards.OrderBy(e => e.transform.GetSiblingIndex()).ToList();
+
+            // grid already built, so we skip animations and just mark ready
+            OnLevelReady?.Invoke();
+        }
+        
+        private CardData GetCardDataById(string id)
+        {
+            return cardPool.FirstOrDefault(c => c.cardId == id);
         }
 
         private IEnumerator PlayEntrySequence()

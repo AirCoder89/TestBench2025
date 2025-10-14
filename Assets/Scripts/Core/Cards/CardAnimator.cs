@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using TestBench2025.Core.Game.Audio;
 using TestBench2025.Utilities;
 using UnityEngine;
 
@@ -33,6 +32,14 @@ namespace TestBench2025.Core.Cards
                 StartCoroutine(FlipRoutine(90, 0, onComplete));
             }, startDelay));
         }
+        
+        public void FlipToFrontImmediate()
+        {
+            if (_flipRoutine != null) StopCoroutine(_flipRoutine);
+            frontFace.SetActive(true); 
+            backFace.SetActive(false); 
+            cardContent.localRotation = Quaternion.Euler(0, 0, 0);
+        }
 
         public void FlipToBack(Action onComplete = null, float startDelay = 0f)
         {
@@ -43,6 +50,14 @@ namespace TestBench2025.Core.Cards
                 backFace.SetActive(true); 
                 StartCoroutine(FlipRoutine(90, 0, onComplete));
             }, startDelay));
+        }
+        
+        public void FlipToBackImmediate()
+        {
+            if (_flipRoutine != null) StopCoroutine(_flipRoutine);
+            frontFace.SetActive(false); 
+            backFace.SetActive(true); 
+            cardContent.localRotation = Quaternion.Euler(0, 0, 0);
         }
         
         public void PlayEntryAnimation(Vector2 relativeOrigin,float speed, float delay, Action onComplete = null)
@@ -61,6 +76,12 @@ namespace TestBench2025.Core.Cards
         public void Matched(Action onComplete = null, float startDelay = 0f)
         {
             cardContent.gameObject.SetActive(false); //todo
+        }
+        
+        public void MatchedImmediate()
+        {
+            if (_flipRoutine != null) StopCoroutine(_flipRoutine);
+            cardContent.gameObject.SetActive(false);
         }
 
         public void ResetCard()
@@ -127,7 +148,6 @@ namespace TestBench2025.Core.Cards
             
             _isMoving = true;
             
-            //SoundManager.Instance.Play(SFXName.CardMove);
             cardContent.anchoredPosition = startPos;
 
             var distance = Vector2.Distance(startPos, endPos);

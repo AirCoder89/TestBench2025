@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TestBench2025.Core.Board;
 using TestBench2025.Core.Game.Audio;
+using TestBench2025.Core.Game.Save;
 using TestBench2025.Core.UI;
 using UnityEngine;
 
@@ -13,17 +14,57 @@ namespace TestBench2025.Core.Game
     internal class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
-        
         [SerializeField] private LevelDifficulty levelDifficulty;
+        [SerializeField] private List<LevelData> levels;
+        [Header("Managers")]
         [SerializeField] private BoardController boardController;
         [SerializeField] private UIStateMachine ui;
         [SerializeField] private GameplayUIController gameplayUI;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private SoundManager soundManager;
-        [SerializeField] private List<LevelData> levels;
-
+        [SerializeField] private GameSaveManager saveManager;
+        
         public bool LevelStarted { get; private set; }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                Debug.Log("Saving game...");
+                SaveGame();
+            }
+
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                Debug.Log("Loading game...");
+                LoadGame();
+            }
+        }
+
+        public void SaveGame()
+        {
+            saveManager.SaveGame(levelDifficulty, scoreManager, boardController);
+        }
+        
+        public void LoadGame()
+        {
+            if(!saveManager.HasSave())
+            {
+                Debug.Log("No saved game to load.");
+                return;
+            }
+            
+            var savedGame = saveManager.LoadGame();
+            if (savedGame == null) return;
+            levelDifficulty = (LevelDifficulty) savedGame.difficulty;
+            var levelData = GetLevelData(levelDifficulty);
+            
+            scoreManager.ResetScore();
+            scoreManager.LoadState(savedGame);
+            
+            boardController.StartSavedLevel(levelData, savedGame);
+        }
+        
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -66,7 +107,7 @@ namespace TestBench2025.Core.Game
         
         private void HandleLevelCompleted()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             soundManager.Play(SFXName.LevelComplete);
             
             LevelStarted = false;
@@ -75,7 +116,7 @@ namespace TestBench2025.Core.Game
 
         public void StartEasyGame()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             soundManager.Play(SFXName.ButtonClick);
             
             levelDifficulty = LevelDifficulty.Easy;
@@ -85,7 +126,7 @@ namespace TestBench2025.Core.Game
         
         public void StartMediumGame()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             soundManager.Play(SFXName.ButtonClick);
             
             levelDifficulty = LevelDifficulty.Medium;
@@ -95,7 +136,7 @@ namespace TestBench2025.Core.Game
         
         public void StartHardGame()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             soundManager.Play(SFXName.ButtonClick);
             
             levelDifficulty = LevelDifficulty.Hard;
@@ -105,19 +146,19 @@ namespace TestBench2025.Core.Game
         
         public void OpenMain()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             ui.GoTo(UIState.Main);
         }
         
         public void OpenSettings()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             ui.GoTo(UIState.Settings);
         }
 
         public void ShowLevelSelect()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             ui.GoTo(UIState.LevelSelect);
         }
         
@@ -126,17 +167,31 @@ namespace TestBench2025.Core.Game
             ui.GoTo(UIState.Pause);
             soundManager.Play(SFXName.ButtonClick);
             soundManager.PauseMusic();
+            Time.timeScale = 0f; 
+        }
+        
+        public void ResumeGame()
+        {
+            Unpause();
+            ui.GoTo(UIState.Gameplay);
+            soundManager.Play(SFXName.ButtonClick);
+        }
+        
+        private void Unpause()
+        {
+            Time.timeScale = 1f; 
+            soundManager.ResumeMusic();
         }
         
         public void BackToPrevious()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             ui.Back();
         }
         
         public void RestartLevel()
         {
-            soundManager.ResumeMusic();
+            Unpause();
             ui.GoTo(UIState.Gameplay);
             LevelStarted = false;
             StartLevel();
