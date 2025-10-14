@@ -112,10 +112,16 @@ namespace TestBench2025.Core.Board
         {
             foreach (Transform child in transform)
             {
+                var card = child.GetComponent<CardController>();
+                if (card != null)
+                {
+                    card.StopAnimations(); // new helper
+                }
                 Destroy(child.gameObject);
             }
             Cards.Clear();
         }
+
 
         private void SetupLayout(LayoutData layout)
         {

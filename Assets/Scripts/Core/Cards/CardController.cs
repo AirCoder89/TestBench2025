@@ -44,6 +44,11 @@ namespace TestBench2025.Core.Cards
             animator.PlayEntryReveal(previewDuration, onComplete);
         }
         
+        public void StopAnimations()
+        {
+            animator.KillAnimation();
+        }
+
         
         private void OnDestroy()
         {

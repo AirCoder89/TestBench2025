@@ -83,15 +83,38 @@ namespace TestBench2025.Core.Cards
         
         private IEnumerator EntryReveal(float previewDuration, Action onComplete)
         {
+            if (!this || !gameObject) yield break;  // destroyed or disabled
+
             FlipToFront();
-            yield return new WaitForSeconds(previewDuration);
+
+            float timer = 0f;
+            while (timer < previewDuration)
+            {
+                if (!this || !gameObject) yield break;
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            if (!this || !gameObject) yield break;
             FlipToBack(onComplete);
         }
 
+
         private IEnumerator MoveTo(Vector2 startPos, Vector2 endPos, float speed, float delay, Action onComplete = null)
         {
-            if (delay > 0f)  yield return new WaitForSeconds(delay);
+            if (!this || !gameObject) yield break;
+            if (delay > 0f)
+            {
+                float wait = 0f;
+                while (wait < delay)
+                {
+                    if (!this || !gameObject) yield break;
+                    wait += Time.deltaTime;
+                    yield return null;
+                }
+            }
 
+            if (!this || !gameObject) yield break;
             cardContent.anchoredPosition = startPos;
 
             var distance = Vector2.Distance(startPos, endPos);
@@ -104,9 +127,10 @@ namespace TestBench2025.Core.Cards
 
             var duration = distance / speed;
             var elapsed = 0f;
-
             while (elapsed < duration)
             {
+                if (!this || !gameObject) yield break;
+
                 elapsed += Time.deltaTime;
                 var t = Mathf.Clamp01(elapsed / duration);
                 var eased = MiniTween.BackEaseOut(t * duration, 0, 1, duration);
@@ -114,10 +138,18 @@ namespace TestBench2025.Core.Cards
                 yield return null;
             }
 
-            cardContent.anchoredPosition = endPos;
+            if (this && gameObject)
+                cardContent.anchoredPosition = endPos;
+
             onComplete?.Invoke();
         }
 
-       
+
+        public void KillAnimation()
+        {
+            if (_flipRoutine != null) StopCoroutine(_flipRoutine);
+            StopAllCoroutines();
+            ResetCard();
+        }
     }
 }
