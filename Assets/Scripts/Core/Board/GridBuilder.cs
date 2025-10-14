@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TestBench2025.Core.Cards;
 using TestBench2025.Core.Game;
+using TestBench2025.Core.Systems;
 using TestBench2025.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,7 @@ namespace TestBench2025.Core.Board
         
         [SerializeField] private CardController cardPrefab;
         [SerializeField] private List<CardData> cardPool;
+        [SerializeField] private int preloadCount = 36;
         
         [Header("Animation")]
         [SerializeField] private RectTransform animationPosition;
@@ -25,13 +27,19 @@ namespace TestBench2025.Core.Board
         [SerializeField] private float entryAnimationSpeed = 2000F;
         [SerializeField] private float entryAnimationDelay = 0.25F;
         
-        
-        public List<CardController> Cards { get; private set; } = new List<CardController>();
+        private ObjectPool<CardController> _cardPool;
+        private List<CardController> _activeCards = new();
         
         private GridLayoutGroup _gridLayout;
         private GridLayoutGroup GridLayout => _gridLayout ? _gridLayout : _gridLayout = GetComponent<GridLayoutGroup>();
 
         private LevelData _currentLevelData;
+
+        private void Awake()
+        {
+            _cardPool = new ObjectPool<CardController>(cardPrefab, preloadCount, transform);
+        }
+
         public void Initialize()
         {
             
@@ -39,6 +47,8 @@ namespace TestBench2025.Core.Board
 
         public void Build(LevelData levelData)
         {
+            ClearGrid();
+            
             _currentLevelData = levelData;
             SetupLayout(levelData.layout);
             var pairs = levelData.layout.TotalCards / 2;
@@ -49,20 +59,18 @@ namespace TestBench2025.Core.Board
             cardsToUse = cardsToUse.OrderBy(x => Random.value).ToList();
 
             // Instantiate cards
-            ClearGrid();
+            
+            var generatedCards = new List<CardController>();
             for (var i = 0; i < levelData.layout.TotalCards; i++)
             {
                 var cardData = cardsToUse[i];
-                var card = Instantiate(cardPrefab, transform);
+                var card = _cardPool.Get();
                 card.Initialize(cardData, levelData.appearance.backgroundColor, levelData.appearance.frontColor, levelData.appearance.backColor);
-                Cards.Add(card);
+                generatedCards.Add(card);
             }
 
-            PlayEntryAnimation();
-        }
+            _activeCards = generatedCards.OrderBy(e => e.transform.GetSiblingIndex()).ToList();
 
-        private void PlayEntryAnimation()
-        {
             StartCoroutine(PlayEntrySequence());
         }
 
@@ -71,9 +79,9 @@ namespace TestBench2025.Core.Board
             // Ensure grid layout is updated before we start
             LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
 
-            for (var i = 0; i < Cards.Count; i++)
+            for (var i = 0; i < _activeCards.Count; i++)
             { 
-                var card = Cards[i];
+                var card = _activeCards[i];
                 var delay = i * entryAnimationDelay;
 
                 var localPos = animationPosition.position.CalculateRelativeAnchoredPos(card.holder.parent as RectTransform);
@@ -83,43 +91,44 @@ namespace TestBench2025.Core.Board
             }
 
             // Wait until all cards finished moving before reveal
-            yield return new WaitForSeconds(entryAnimationDelay * Cards.Count + 0.4f);
+            yield return new WaitForSeconds(entryAnimationDelay * _activeCards.Count + 0.4f);
 
-            PlayEntryReveal();
+           PlayEntryReveal();
         }
 
         private void PlayEntryReveal()
         { 
-            for (var i = 0; i < Cards.Count; i++) 
+            for (var i = 0; i < _activeCards.Count; i++) 
             { 
                 var delay = i * entryAnimationDelay; 
-                var card = Cards[i];
+                var card = _activeCards[i];
                 StartCoroutine(PlayCardReveal(card, delay));
             }
         }
 
         private IEnumerator PlayCardReveal(CardController card, float delay)
-        { 
+        {
             yield return new WaitForSeconds(delay);
+
+            if (card == null || !card.gameObject.activeInHierarchy) yield break;
+
             card.PlayEntryReveal(_currentLevelData.revealPreviewDuration, () =>
             {
-                if (card == Cards[^1]) // last card triggers level ready
+                if (card == _activeCards[^1]) 
                     OnLevelReady?.Invoke();
-            }); 
+            });
         }
+
 
         private void ClearGrid()
         {
-            foreach (Transform child in transform)
+            foreach (var card in _activeCards)
             {
-                var card = child.GetComponent<CardController>();
-                if (card != null)
-                {
-                    card.StopAnimations(); // new helper
-                }
-                Destroy(child.gameObject);
+                card.StopAnimations();
+                _cardPool.Return(card);
             }
-            Cards.Clear();
+
+            _activeCards.Clear();
         }
 
 

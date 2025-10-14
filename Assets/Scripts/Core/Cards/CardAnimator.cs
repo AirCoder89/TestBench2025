@@ -57,11 +57,13 @@ namespace TestBench2025.Core.Cards
             cardContent.gameObject.SetActive(false); //todo
         }
 
-        private void ResetCard()
+        public void ResetCard()
         {
             frontFace.SetActive(false);
             backFace.SetActive(true);
+            cardContent.gameObject.SetActive(true);
             cardContent.localRotation = Quaternion.Euler(0, 0, 0);
+            cardContent.anchoredPosition = Vector2.zero;
         }
         
         private IEnumerator FlipRoutine(float from, float to, Action onComplete, float startDelay = 0f)

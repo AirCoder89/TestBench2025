@@ -30,8 +30,14 @@ namespace TestBench2025.Core.Cards
             UpdateCardColors(background, front, back);
             animator.Initialize();   
             cardBtn.onClick.AddListener(OnTap);
+            ResetCard();
+        }
+        
+        public void ResetCard()
+        {
             State = CardState.Hidden;
             cardBtn.interactable = true;
+            animator.ResetCard();
         }
 
         public void PlayEntryAnimation(Vector2 relativeOrigin, float speed, float delay, Action onComplete = null)
@@ -96,5 +102,7 @@ namespace TestBench2025.Core.Cards
             
             Debug.Log("Flipped Back");
         }
+
+        
     }
 }
