@@ -24,6 +24,8 @@ namespace TestBench2025.Core.Board
     {
         public static event Action<bool> OnPairEvaluated; 
         public event Action OnLevelReady;
+        public event Action OnLevelCompleted;
+
         
         [SerializeField] private GridBuilder builder;
         [SerializeField] private float cardFlipBackDelay = 0.5F;
@@ -111,6 +113,29 @@ namespace TestBench2025.Core.Board
             }
 
             _isProcessing = false;
+            
+            CheckLevelCompletion();
         }
+        
+        private void CheckLevelCompletion()
+        {
+            // all cards matched?
+            bool allMatched = true;
+            foreach (var card in builder.ActiveCards) // use your _activeCards from GridBuilder
+            {
+                if (card.State != CardState.Matched)
+                {
+                    allMatched = false;
+                    break;
+                }
+            }
+
+            if (allMatched)
+            {
+                Debug.Log("Level completed!");
+                OnLevelCompleted?.Invoke();
+            }
+        }
+
     }
 }

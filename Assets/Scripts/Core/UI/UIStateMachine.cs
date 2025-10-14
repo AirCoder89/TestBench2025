@@ -13,6 +13,7 @@ namespace TestBench2025.Core.UI
         Gameplay,
         LevelSelect,
         Pause,
+        LevelComplete,
         Transition
     }
     
@@ -23,6 +24,7 @@ namespace TestBench2025.Core.UI
         [SerializeField] private CanvasGroup settingsCanvas;
         [SerializeField] private CanvasGroup gameplayCanvas;
         [SerializeField] private CanvasGroup levelSelectCanvas;
+        [SerializeField] private CanvasGroup levelCompleteCanvas;
 
         [Header("Overlay")]
         [SerializeField] private CanvasGroup pausePanel;
@@ -42,6 +44,7 @@ namespace TestBench2025.Core.UI
             _screens[UIState.Gameplay] = gameplayCanvas;
             _screens[UIState.LevelSelect] = levelSelectCanvas;
             _screens[UIState.Pause] = pausePanel;
+            _screens[UIState.LevelComplete] = levelCompleteCanvas;
 
             // disable all
             foreach (var kv in _screens)

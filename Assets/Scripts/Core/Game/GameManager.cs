@@ -51,12 +51,22 @@ namespace TestBench2025.Core.Game
         private void OnEnable()
         {
             boardController.OnLevelReady += HandleLevelReady;
+            boardController.OnLevelCompleted += HandleLevelCompleted;
         }
 
         private void OnDisable()
         {
             boardController.OnLevelReady -= HandleLevelReady;
+            boardController.OnLevelCompleted -= HandleLevelCompleted;
+
         }
+        
+        private void HandleLevelCompleted()
+        {
+            LevelStarted = false;
+            ui.GoTo(UIState.LevelComplete);
+        }
+
         
         [ContextMenu("Start Easy Game")]
         public void StartEasyGame()
@@ -129,11 +139,10 @@ namespace TestBench2025.Core.Game
         [ContextMenu("Restart Level")]
         public void RestartLevel()
         {
+            ui.GoTo(UIState.Gameplay);
             LevelStarted = false;
-            var levelData = GetLevelData(levelDifficulty);
-            boardController.StartLevel(levelData);
+            StartLevel();
         }
-
 
         private void HandleLevelReady()
         {

@@ -34,6 +34,9 @@ namespace TestBench2025.Core.Board
         private GridLayoutGroup GridLayout => _gridLayout ? _gridLayout : _gridLayout = GetComponent<GridLayoutGroup>();
 
         private LevelData _currentLevelData;
+        
+        public IReadOnlyList<CardController> ActiveCards => _activeCards;
+
 
         private void Awake()
         {
