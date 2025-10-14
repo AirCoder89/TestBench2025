@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TestBench2025.Core.Cards;
 using TestBench2025.Core.Game;
+using TestBench2025.Core.Game.Audio;
 using UnityEngine;
 
 namespace TestBench2025.Core.Board
@@ -13,6 +14,8 @@ namespace TestBench2025.Core.Board
         public CardController first;
         public CardController second;
 
+        private bool IsValid => first != null && second != null;
+        public bool CanProcess => IsValid && first.State != CardState.Matched && second.State != CardState.Matched;
         public CardPair(CardController first, CardController second)
         {
             this.first = first;
@@ -85,25 +88,23 @@ namespace TestBench2025.Core.Board
             {
                 var pair = _pendingPairs.Dequeue();
 
-                // skip null or matched
-                if (pair.first == null || pair.second == null || pair.first.State == CardState.Matched ||  pair.second.State == CardState.Matched)
-                {
-                    continue;
-                }
+                if (!pair.CanProcess) continue;
 
                 // wait a moment before flipping back
                 yield return new WaitForSeconds(cardFlipBackDelay);
 
-                bool isMatch = pair.first.Data.cardId == pair.second.Data.cardId;
+                var isMatch = pair.first.Data.cardId == pair.second.Data.cardId;
                 if (isMatch)
                 {
                     pair.first.SetMatched();
                     pair.second.SetMatched();
+                    SoundManager.Instance.Play(SFXName.Match);
                 }
                 else
                 {
                     pair.first.FlipBack();
                     pair.second.FlipBack();
+                    SoundManager.Instance.Play(SFXName.Mismatch);
                 }
 
                 OnPairEvaluated?.Invoke(isMatch);
@@ -119,9 +120,8 @@ namespace TestBench2025.Core.Board
         
         private void CheckLevelCompletion()
         {
-            // all cards matched?
-            bool allMatched = true;
-            foreach (var card in builder.ActiveCards) // use your _activeCards from GridBuilder
+            var allMatched = true;
+            foreach (var card in builder.ActiveCards)
             {
                 if (card.State != CardState.Matched)
                 {
@@ -132,7 +132,6 @@ namespace TestBench2025.Core.Board
 
             if (allMatched)
             {
-                Debug.Log("Level completed!");
                 OnLevelCompleted?.Invoke();
             }
         }

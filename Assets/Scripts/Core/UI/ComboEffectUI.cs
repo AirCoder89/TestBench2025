@@ -1,3 +1,4 @@
+using TestBench2025.Core.Game.Audio;
 using TMPro;
 using UnityEngine;
 
@@ -24,6 +25,8 @@ namespace TestBench2025.Core.UI
             comboText.transform.localScale = Vector3.one * 1.5f;
             comboText.color = new Color(comboText.color.r, comboText.color.g, comboText.color.b, 1f);
             comboText.gameObject.SetActive(true);
+            
+            SoundManager.Instance.Play(SFXName.Combo);
         }
 
         

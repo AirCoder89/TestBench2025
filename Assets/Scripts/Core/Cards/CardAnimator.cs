@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TestBench2025.Core.Game.Audio;
 using TestBench2025.Utilities;
 using UnityEngine;
 
@@ -13,10 +14,13 @@ namespace TestBench2025.Core.Cards
         [SerializeField] private float flipDuration = 0.4f;
 
         private Coroutine _flipRoutine;
-        
+        private bool _isMoving;
+
         public void Initialize()
         {
+            StopAllCoroutines();
             ResetCard();
+            _isMoving = false;
         }
         
         public void FlipToFront(Action onComplete = null, float startDelay = 0f)
@@ -43,7 +47,9 @@ namespace TestBench2025.Core.Cards
         
         public void PlayEntryAnimation(Vector2 relativeOrigin,float speed, float delay, Action onComplete = null)
         {
+            if (!isActiveAndEnabled) return;
             StopAllCoroutines();
+            _isMoving = false;
             StartCoroutine(MoveTo(relativeOrigin, Vector2.zero, speed, delay, onComplete));
         }
 
@@ -105,9 +111,10 @@ namespace TestBench2025.Core.Cards
         private IEnumerator MoveTo(Vector2 startPos, Vector2 endPos, float speed, float delay, Action onComplete = null)
         {
             if (!this || !gameObject) yield break;
+            if (!gameObject.activeInHierarchy || !enabled) yield break;
             if (delay > 0f)
             {
-                float wait = 0f;
+                var wait = 0f;
                 while (wait < delay)
                 {
                     if (!this || !gameObject) yield break;
@@ -116,7 +123,11 @@ namespace TestBench2025.Core.Cards
                 }
             }
 
-            if (!this || !gameObject) yield break;
+            if (!this || !gameObject || _isMoving) yield break;
+            
+            _isMoving = true;
+            
+            //SoundManager.Instance.Play(SFXName.CardMove);
             cardContent.anchoredPosition = startPos;
 
             var distance = Vector2.Distance(startPos, endPos);

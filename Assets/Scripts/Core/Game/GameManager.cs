@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using TestBench2025.Core.Board;
+using TestBench2025.Core.Game.Audio;
 using TestBench2025.Core.UI;
 using UnityEngine;
 
@@ -19,6 +19,7 @@ namespace TestBench2025.Core.Game
         [SerializeField] private UIStateMachine ui;
         [SerializeField] private GameplayUIController gameplayUI;
         [SerializeField] private ScoreManager scoreManager;
+        [SerializeField] private SoundManager soundManager;
         [SerializeField] private List<LevelData> levels;
 
         public bool LevelStarted { get; private set; }
@@ -41,12 +42,14 @@ namespace TestBench2025.Core.Game
                 return;
             }
             
+            soundManager.Initialize();
+            soundManager.StartMusic();
+            
             ui.Initialize();
             ui.GoTo(UIState.Main);
             boardController.Initialize();
             scoreManager.Initialize();
             gameplayUI.Initialize(scoreManager);
-            StartLevel();
         }
         
         private void OnEnable()
@@ -59,74 +62,84 @@ namespace TestBench2025.Core.Game
         {
             boardController.OnLevelReady -= HandleLevelReady;
             boardController.OnLevelCompleted -= HandleLevelCompleted;
-
         }
         
         private void HandleLevelCompleted()
         {
+            soundManager.ResumeMusic();
+            soundManager.Play(SFXName.LevelComplete);
+            
             LevelStarted = false;
             ui.GoTo(UIState.LevelComplete);
         }
 
-        
-        [ContextMenu("Start Easy Game")]
         public void StartEasyGame()
         {
+            soundManager.ResumeMusic();
+            soundManager.Play(SFXName.ButtonClick);
+            
             levelDifficulty = LevelDifficulty.Easy;
             ui.GoTo(UIState.Gameplay);
             StartLevel();
         }
         
-        [ContextMenu("Start Medium Game")]
         public void StartMediumGame()
         {
+            soundManager.ResumeMusic();
+            soundManager.Play(SFXName.ButtonClick);
+            
             levelDifficulty = LevelDifficulty.Medium;
             ui.GoTo(UIState.Gameplay);
             StartLevel();
         }
         
-        [ContextMenu("Start Hard Game")]
         public void StartHardGame()
         {
+            soundManager.ResumeMusic();
+            soundManager.Play(SFXName.ButtonClick);
+            
             levelDifficulty = LevelDifficulty.Hard;
             ui.GoTo(UIState.Gameplay);
             StartLevel();
         }
         
-        [ContextMenu("OpenMain")]
         public void OpenMain()
         {
+            soundManager.ResumeMusic();
             ui.GoTo(UIState.Main);
         }
         
-        [ContextMenu("OpenSettings")]
         public void OpenSettings()
         {
+            soundManager.ResumeMusic();
             ui.GoTo(UIState.Settings);
         }
 
-        [ContextMenu("ReturnToMenu")]
-        public void ReturnToMenu()
-        {
-            ui.GoTo(UIState.Main);
-        }
-
-        [ContextMenu("ShowLevelSelect")]
         public void ShowLevelSelect()
         {
+            soundManager.ResumeMusic();
             ui.GoTo(UIState.LevelSelect);
         }
         
-        [ContextMenu("PauseGame")]
         public void PauseGame()
         {
             ui.GoTo(UIState.Pause);
+            soundManager.Play(SFXName.ButtonClick);
+            soundManager.PauseMusic();
         }
         
-        [ContextMenu("BackToPrevious")]
         public void BackToPrevious()
         {
+            soundManager.ResumeMusic();
             ui.Back();
+        }
+        
+        public void RestartLevel()
+        {
+            soundManager.ResumeMusic();
+            ui.GoTo(UIState.Gameplay);
+            LevelStarted = false;
+            StartLevel();
         }
         
         private void StartLevel()
@@ -137,14 +150,6 @@ namespace TestBench2025.Core.Game
             boardController.StartLevel(levelData);
         }
         
-        [ContextMenu("Restart Level")]
-        public void RestartLevel()
-        {
-            ui.GoTo(UIState.Gameplay);
-            LevelStarted = false;
-            StartLevel();
-        }
-
         private void HandleLevelReady()
         {
             LevelStarted = true;

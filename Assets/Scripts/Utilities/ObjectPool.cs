@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TestBench2025.Core.Systems
+namespace TestBench2025.Utilities
 {
     public class ObjectPool<T> where T : Component
     {

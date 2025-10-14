@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TestBench2025.Core.Cards;
 using TestBench2025.Core.Game;
-using TestBench2025.Core.Systems;
+using TestBench2025.Core.Game.Audio;
 using TestBench2025.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -95,7 +95,6 @@ namespace TestBench2025.Core.Board
 
             // Wait until all cards finished moving before reveal
             yield return new WaitForSeconds(entryAnimationDelay * _activeCards.Count + 0.4f);
-
            PlayEntryReveal();
         }
 

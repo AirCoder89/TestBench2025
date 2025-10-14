@@ -1,5 +1,6 @@
 using System;
 using TestBench2025.Core.Game;
+using TestBench2025.Core.Game.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,7 +56,6 @@ namespace TestBench2025.Core.Cards
             animator.KillAnimation();
         }
 
-        
         private void OnDestroy()
         {
             cardBtn.onClick.RemoveListener(OnTap);
@@ -71,7 +71,7 @@ namespace TestBench2025.Core.Cards
         private void OnTap()
         {
             if (!CanReveal) return;
-            
+            SoundManager.Instance.Play(SFXName.CardFlip);
             State = CardState.Flipping;
             OnCardFlipped?.Invoke(this);
             animator.FlipToFront(HandleRevealedCard);
@@ -79,7 +79,6 @@ namespace TestBench2025.Core.Cards
 
         private void HandleRevealedCard()
         {
-            Debug.Log("Revealed");
             State = CardState.Revealed;
             OnCardRevealed?.Invoke(this);
         }
@@ -88,9 +87,6 @@ namespace TestBench2025.Core.Cards
         {
             State = CardState.Matched;
             cardBtn.interactable = false;
-            
-            Debug.Log("Matched");
-            
             animator.Matched();
         }
 
@@ -99,8 +95,6 @@ namespace TestBench2025.Core.Cards
             if(State is CardState.Flipping or not CardState.Revealed) return; 
             State = CardState.Flipping;
             animator.FlipToBack(() => State = CardState.Hidden);
-            
-            Debug.Log("Flipped Back");
         }
 
         

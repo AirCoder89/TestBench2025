@@ -549,6 +549,164 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   comboText: {fileID: 886106160}
+--- !u!1 &97805663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 97805664}
+  - component: {fileID: 97805665}
+  - component: {fileID: 97805666}
+  m_Layer: 0
+  m_Name: Sound Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &97805664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97805663}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 154543825}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &97805665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97805663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6c53f291f9401a8709b9a9edaf1ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundMusic: {fileID: 0}
+  sounds:
+  - name: match
+    clip: {fileID: 8300000, guid: 628f51ab4805a4176b79b0c1f2bd8eac, type: 3}
+  - name: flip
+    clip: {fileID: 8300000, guid: 6019271a906cc4a0798baf66b3a52bd2, type: 3}
+  - name: card
+    clip: {fileID: 8300000, guid: df0c6e5464fed4b07a86b3370c9efbb1, type: 3}
+  - name: tap
+    clip: {fileID: 8300000, guid: a037cb74882c043f3b9208677c30d152, type: 3}
+  - name: win
+    clip: {fileID: 8300000, guid: c1c896509c1d147faa22b8b4dc901667, type: 3}
+  - name: card-woosh
+    clip: {fileID: 8300000, guid: 43539ca6c3daa4f7c974c6a6b32f7f2d, type: 3}
+  audioSourcePrefab: {fileID: 2115491929033716347, guid: fedb2c38934e949d49b07524aa3af411, type: 3}
+  initialPoolSize: 4
+  defaultVolume: 0.8
+--- !u!82 &97805666
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97805663}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 58beb4cf0284a4f2d87bfe2442223992, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &108929741
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,6 +1007,7 @@ Transform:
   - {fileID: 1849491713}
   - {fileID: 746580876}
   - {fileID: 2081514052}
+  - {fileID: 97805664}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5755,7 +5914,7 @@ MonoBehaviour:
     symbol: {fileID: 679409983, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
   - cardId: red-candy-card
     symbol: {fileID: 1066331412, guid: 0996e2b99631c460eb799508f696a07e, type: 3}
-  preloadCount: 36
+  preloadCount: 4
   animationPosition: {fileID: 2135316857}
   entryAnimationSpeed: 2000
   entryAnimationDelay: 0.05
@@ -6735,11 +6894,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17c611714b54bfc8f685d86b5a5dcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelDifficulty: 2
+  levelDifficulty: 0
   boardController: {fileID: 1435924640}
   ui: {fileID: 2081514053}
   gameplayUI: {fileID: 1179939151}
   scoreManager: {fileID: 746580875}
+  soundManager: {fileID: 97805665}
   levels:
   - difficulty: 0
     revealPreviewDuration: 2
