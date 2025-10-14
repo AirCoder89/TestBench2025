@@ -17,6 +17,8 @@ namespace TestBench2025.Core.Game
         [SerializeField] private LevelDifficulty levelDifficulty;
         [SerializeField] private BoardController boardController;
         [SerializeField] private UIStateMachine ui;
+        [SerializeField] private GameplayUIController gameplayUI;
+        [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private List<LevelData> levels;
 
         public bool LevelStarted { get; private set; }
@@ -41,6 +43,8 @@ namespace TestBench2025.Core.Game
             
             ui.GoTo(UIState.Main);
             boardController.Initialize();
+            scoreManager.Initialize();
+            gameplayUI.Initialize(scoreManager);
             StartLevel();
         }
         
@@ -114,10 +118,10 @@ namespace TestBench2025.Core.Game
             ui.Back();
         }
         
-        
         private void StartLevel()
         {
             LevelStarted = false;
+            scoreManager.ResetScore();
             var levelData = GetLevelData(levelDifficulty);
             boardController.StartLevel(levelData);
         }

@@ -22,6 +22,7 @@ namespace TestBench2025.Core.Board
    
     internal class BoardController : MonoBehaviour
     {
+        public static event Action<bool> OnPairEvaluated; 
         public event Action OnLevelReady;
         
         [SerializeField] private GridBuilder builder;
@@ -91,7 +92,8 @@ namespace TestBench2025.Core.Board
                 // wait a moment before flipping back
                 yield return new WaitForSeconds(cardFlipBackDelay);
 
-                if (pair.first.Data.cardId == pair.second.Data.cardId)
+                bool isMatch = pair.first.Data.cardId == pair.second.Data.cardId;
+                if (isMatch)
                 {
                     pair.first.SetMatched();
                     pair.second.SetMatched();
@@ -102,6 +104,8 @@ namespace TestBench2025.Core.Board
                     pair.second.FlipBack();
                 }
 
+                OnPairEvaluated?.Invoke(isMatch);
+                
                 // small delay before processing next pair
                 yield return new WaitForSeconds(pairCheckDelay);
             }
