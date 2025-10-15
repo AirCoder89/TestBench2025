@@ -70,12 +70,13 @@ namespace TestBench2025.Core.Board
             StartCoroutine(PlayEntrySequence());
         }
         
-        public void BuildFromSave(LevelData levelData, SavedGame save, CardDesignData cardDesign)
+        public CardController BuildFromSave(LevelData levelData, SavedGame save, CardDesignData cardDesign)
         {
             ClearGrid();
             
             _currentLevelData = levelData;
             SetupLayout(levelData.layout);
+            CardController pendingCard = null;
             
             var generatedCards = new List<CardController>();
             for (var i = 0; i < save.cards.Count; i++)
@@ -86,12 +87,17 @@ namespace TestBench2025.Core.Board
                 card.Initialize(cardData, cardDesign, levelData.appearance.backgroundColor, levelData.appearance.frontColor, levelData.appearance.backColor);
                 card.SetState((CardState)saveCard.state);
                 generatedCards.Add(card);
+                
+                if (card.State == CardState.Revealed)
+                    pendingCard = card;
             }
 
             _activeCards = generatedCards.OrderBy(e => e.transform.GetSiblingIndex()).ToList();
 
             // grid already built, so we skip animations and just mark ready
             OnLevelReady?.Invoke();
+            
+            return pendingCard;
         }
         
         private CardData GetCardDataById(string id)

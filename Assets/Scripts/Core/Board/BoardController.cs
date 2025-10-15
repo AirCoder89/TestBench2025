@@ -78,7 +78,6 @@ namespace TestBench2025.Core.Board
         
         public void StartSavedLevel(LevelData levelData, SavedGame savedGame)
         {
-            _pendingCard = null;
             _pendingPairs.Clear();
             _isProcessing = false;
             
@@ -87,7 +86,7 @@ namespace TestBench2025.Core.Board
             backButtonImage.color = levelData.appearance.buttonColor;
             pauseButtonImage.color = levelData.appearance.buttonColor;
             
-            builder.BuildFromSave(levelData, savedGame , _settings.CardDesign);
+            _pendingCard = builder.BuildFromSave(levelData, savedGame , _settings.CardDesign);
         }
 
         private void HandleCardRevealed(CardController card)
