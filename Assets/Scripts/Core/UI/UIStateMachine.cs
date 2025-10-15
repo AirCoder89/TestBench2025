@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TestBench2025.Core.UI.Views;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,7 +65,13 @@ namespace TestBench2025.Core.UI
             _previousState = UIState.None;
         }
         
-
+        public T GetView<T>(UIState state) where T : UICanvasView
+        {
+            if (Screens.TryGetValue(state, out var view))
+                return view as T;
+            return null;
+        }
+        
         public void GoTo(UIState next)
         {
             if (_transitionRoutine != null)

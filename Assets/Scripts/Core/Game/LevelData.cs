@@ -17,11 +17,15 @@ namespace TestBench2025.Core.Game
     [Serializable]
     internal class LevelAppearance
     {
+        [Header("Board Appearance")]
         public Color boardColor;
+        public Color topBarColor;
+        public Color buttonColor;
         
         [Header("Card Appearance")]
         public Color backgroundColor;
         public Color frontColor;
         public Color backColor;
+        
     }
 }

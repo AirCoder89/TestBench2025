@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TestBench2025.Core.UI
+namespace TestBench2025.Core.UI.Views
 {
     public enum UIViewType { Screen, Overlay }
     
     [RequireComponent(typeof(CanvasGroup))]
-    public class UICanvasView : MonoBehaviour
+    internal class UICanvasView : MonoBehaviour
     {
         public UIViewType viewType = UIViewType.Screen;
         public UIState state = UIState.None;

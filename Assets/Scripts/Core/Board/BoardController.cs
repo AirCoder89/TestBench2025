@@ -7,6 +7,7 @@ using TestBench2025.Core.Game;
 using TestBench2025.Core.Game.Audio;
 using TestBench2025.Core.Game.Save;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TestBench2025.Core.Board
 {
@@ -35,6 +36,10 @@ namespace TestBench2025.Core.Board
         [SerializeField] private GridBuilder builder;
         [SerializeField] private float cardFlipBackDelay = 0.5F;
         [SerializeField] private float pairCheckDelay = 0.1F;
+        [SerializeField] private Image boardBackground;
+        [SerializeField] private Image topBarImage;
+        [SerializeField] private Image backButtonImage;
+        [SerializeField] private Image pauseButtonImage;
 
         private CardController _pendingCard;
         private readonly Queue<CardPair> _pendingPairs = new();
@@ -58,7 +63,11 @@ namespace TestBench2025.Core.Board
             _pendingCard = null;
             _pendingPairs.Clear();
             _isProcessing = false;
-            
+
+            boardBackground.color = levelData.appearance.boardColor;
+            topBarImage.color = levelData.appearance.topBarColor;
+            backButtonImage.color = levelData.appearance.buttonColor;
+            pauseButtonImage.color = levelData.appearance.buttonColor;
             builder.Build(levelData);
         }
         
@@ -68,6 +77,10 @@ namespace TestBench2025.Core.Board
             _pendingPairs.Clear();
             _isProcessing = false;
             
+            boardBackground.color = levelData.appearance.boardColor;
+            topBarImage.color = levelData.appearance.topBarColor;
+            backButtonImage.color = levelData.appearance.buttonColor;
+            pauseButtonImage.color = levelData.appearance.buttonColor;
             builder.BuildFromSave(levelData, savedGame);
         }
 

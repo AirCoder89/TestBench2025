@@ -1,9 +1,9 @@
 using TestBench2025.Core.Game;
 using UnityEngine;
 
-namespace TestBench2025.Core.UI
+namespace TestBench2025.Core.UI.Views
 {
-    internal class GameplayUIController : UICanvasView
+    internal class GameplayView : UICanvasView
     {
         [SerializeField] private GameplayHUD hud;
         [SerializeField] private ComboEffectUI comboEffect;

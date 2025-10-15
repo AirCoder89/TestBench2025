@@ -14,6 +14,17 @@ namespace TestBench2025.Core.Cards
 
         private Coroutine _flipRoutine;
         private bool _isMoving;
+        
+        private CanvasGroup _canvasGroup;
+        private CanvasGroup CanvasGroup
+        {
+            get
+            {
+                if (_canvasGroup == null)
+                    _canvasGroup = cardContent.GetComponent<CanvasGroup>();
+                return _canvasGroup;
+            }
+        }
 
         public void Initialize()
         {
@@ -75,12 +86,15 @@ namespace TestBench2025.Core.Cards
         
         public void Matched(Action onComplete = null, float startDelay = 0f)
         {
-            cardContent.gameObject.SetActive(false); //todo
+            if (_flipRoutine != null) StopCoroutine(_flipRoutine);
+            StopAllCoroutines();
+            StartCoroutine(MatchedRoutine(onComplete, startDelay));
         }
         
         public void MatchedImmediate()
         {
             if (_flipRoutine != null) StopCoroutine(_flipRoutine);
+            cardContent.localScale = Vector3.one;
             cardContent.gameObject.SetActive(false);
         }
 
@@ -91,6 +105,40 @@ namespace TestBench2025.Core.Cards
             cardContent.gameObject.SetActive(true);
             cardContent.localRotation = Quaternion.Euler(0, 0, 0);
             cardContent.anchoredPosition = Vector2.zero;
+            cardContent.localScale = Vector3.one;
+
+            if (CanvasGroup != null)
+                CanvasGroup.alpha = 1f;
+        }
+
+        private IEnumerator MatchedRoutine(Action onComplete, float startDelay)
+        {
+            if (startDelay > 0f) yield return new WaitForSeconds(startDelay);
+            if (!cardContent || !CanvasGroup) yield break;
+
+            var startScale = cardContent.localScale;
+            var endScale = Vector3.one * 1.3f;
+            var duration = 0.25f;
+            var elapsed = 0f;
+            var startAlpha = 1f;
+            var endAlpha = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                var t = Mathf.Clamp01(elapsed / duration);
+                var eased = MiniTween.BackEaseOut(t * duration, 0, 1, duration);
+
+                
+                cardContent.localScale = Vector3.LerpUnclamped(startScale, endScale, eased);
+                CanvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, t);
+                yield return null;
+            }
+            
+            cardContent.localScale = endScale;
+            CanvasGroup.alpha = 0f;
+            cardContent.gameObject.SetActive(false);
+            onComplete?.Invoke();
         }
         
         private IEnumerator FlipRoutine(float from, float to, Action onComplete, float startDelay = 0f)
@@ -116,7 +164,7 @@ namespace TestBench2025.Core.Cards
 
             FlipToFront();
 
-            float timer = 0f;
+            var timer = 0f;
             while (timer < previewDuration)
             {
                 if (!this || !gameObject) yield break;

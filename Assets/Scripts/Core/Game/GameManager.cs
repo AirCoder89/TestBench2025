@@ -3,6 +3,7 @@ using TestBench2025.Core.Board;
 using TestBench2025.Core.Game.Audio;
 using TestBench2025.Core.Game.Save;
 using TestBench2025.Core.UI;
+using TestBench2025.Core.UI.Views;
 using UnityEngine;
 
 namespace TestBench2025.Core.Game
@@ -16,13 +17,15 @@ namespace TestBench2025.Core.Game
         public static GameManager Instance { get; private set; }
         [SerializeField] private LevelDifficulty levelDifficulty;
         [SerializeField] private List<LevelData> levels;
+        
         [Header("Managers")]
         [SerializeField] private BoardController boardController;
         [SerializeField] private UIStateMachine ui;
-        [SerializeField] private GameplayUIController gameplayUI;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private SoundManager soundManager;
         [SerializeField] private GameSaveManager saveManager;
+        
+
         
         public bool LevelStarted { get; private set; }
 
@@ -39,11 +42,18 @@ namespace TestBench2025.Core.Game
                 Debug.Log("Loading game...");
                 LoadGame();
             }
+            
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Debug.Log("Clearing save...");
+                saveManager.DeleteSave();
+            }
         }
 
         public void SaveGame()
         {
             saveManager.SaveGame(levelDifficulty, scoreManager, boardController);
+            ResumeGame();
         }
         
         public void LoadGame()
@@ -54,6 +64,8 @@ namespace TestBench2025.Core.Game
                 return;
             }
             
+            Unpause();
+            ui.GoTo(UIState.Gameplay);
             var savedGame = saveManager.LoadGame();
             if (savedGame == null) return;
             levelDifficulty = (LevelDifficulty) savedGame.difficulty;
@@ -85,12 +97,18 @@ namespace TestBench2025.Core.Game
             
             soundManager.Initialize();
             soundManager.StartMusic();
-            
-            ui.Initialize();
-            ui.GoTo(UIState.Main);
             boardController.Initialize();
             scoreManager.Initialize();
-            gameplayUI.Initialize(scoreManager);
+
+            InitializeUI();
+        }
+        
+        private void InitializeUI()
+        {
+            ui.Initialize();
+            ui.GoTo(UIState.Main);
+            ui.GetView<GameplayView>(UIState.Gameplay).Initialize(scoreManager);
+            ui.GetView<MainView>(UIState.Main).UpdateButtonState(saveManager.HasSave());
         }
         
         private void OnEnable()
@@ -111,6 +129,8 @@ namespace TestBench2025.Core.Game
             soundManager.Play(SFXName.LevelComplete);
             
             LevelStarted = false;
+            
+            ui.GetView<LevelCompleteView>(UIState.LevelComplete).Initialize(scoreManager);
             ui.GoTo(UIState.LevelComplete);
         }
 
@@ -147,6 +167,7 @@ namespace TestBench2025.Core.Game
         public void OpenMain()
         {
             Unpause();
+            ui.GetView<MainView>(UIState.Main).UpdateButtonState(saveManager.HasSave());
             ui.GoTo(UIState.Main);
         }
         
@@ -164,6 +185,7 @@ namespace TestBench2025.Core.Game
         
         public void PauseGame()
         {
+            ui.GetView<PauseMenuView>(UIState.Pause).UpdateButtonState(saveManager.HasSave());
             ui.GoTo(UIState.Pause);
             soundManager.Play(SFXName.ButtonClick);
             soundManager.PauseMusic();
@@ -175,12 +197,6 @@ namespace TestBench2025.Core.Game
             Unpause();
             ui.GoTo(UIState.Gameplay);
             soundManager.Play(SFXName.ButtonClick);
-        }
-        
-        private void Unpause()
-        {
-            Time.timeScale = 1f; 
-            soundManager.ResumeMusic();
         }
         
         public void BackToPrevious()
@@ -195,6 +211,20 @@ namespace TestBench2025.Core.Game
             ui.GoTo(UIState.Gameplay);
             LevelStarted = false;
             StartLevel();
+        }
+
+        public void ContinueLevel() //todo : do not reset score
+        {
+            Unpause();
+            ui.GoTo(UIState.Gameplay);
+            LevelStarted = false;
+            StartLevel();
+        }
+        
+        private void Unpause()
+        {
+            Time.timeScale = 1f; 
+            soundManager.ResumeMusic();
         }
         
         private void StartLevel()
