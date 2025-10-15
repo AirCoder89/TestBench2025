@@ -72,6 +72,7 @@ namespace TestBench2025.Core.Board
             topBarImage.color = levelData.appearance.topBarColor;
             backButtonImage.color = levelData.appearance.buttonColor;
             pauseButtonImage.color = levelData.appearance.buttonColor;
+            
             builder.Build(levelData, _settings.CardDesign);
         }
         
@@ -85,6 +86,7 @@ namespace TestBench2025.Core.Board
             topBarImage.color = levelData.appearance.topBarColor;
             backButtonImage.color = levelData.appearance.buttonColor;
             pauseButtonImage.color = levelData.appearance.buttonColor;
+            
             builder.BuildFromSave(levelData, savedGame , _settings.CardDesign);
         }
 

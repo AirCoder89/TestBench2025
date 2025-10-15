@@ -14,7 +14,7 @@ namespace TestBench2025.Core.Game.Audio
 
     public enum SFXName
     {
-        Combo, Match, Mismatch, CardFlip, LevelComplete, ButtonClick
+        Combo, Match, Mismatch, CardFlip, LevelComplete, ButtonClick, Select, Start
     }
     
     internal class SoundManager : MonoBehaviour
@@ -91,8 +91,12 @@ namespace TestBench2025.Core.Game.Audio
 
         public void StartMusic()
         {
-            if(backgroundMusic != null && !backgroundMusic.isPlaying)
+            if (backgroundMusic != null && !backgroundMusic.isPlaying)
+            {
                 backgroundMusic.Play();
+                backgroundMusic.loop = true;
+                backgroundMusic.volume = _musicVolume;
+            }
         }
         
         public void StopMusic()

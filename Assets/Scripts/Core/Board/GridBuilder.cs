@@ -19,7 +19,7 @@ namespace TestBench2025.Core.Board
         
         [SerializeField] private CardController cardPrefab;
         [SerializeField] private List<CardData> cardPool;
-        [SerializeField] private int preloadCount = 36;
+        [SerializeField] private int preloadCount = 4;
         
         [Header("Animation")]
         [SerializeField] private RectTransform animationPosition;

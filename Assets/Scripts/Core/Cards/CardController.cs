@@ -8,7 +8,6 @@ namespace TestBench2025.Core.Cards
 {
     internal class CardController : MonoBehaviour
     {
-        public static event Action<CardController> OnCardFlipped;
         public static event Action<CardController> OnCardRevealed;
 
         public RectTransform holder;
@@ -19,7 +18,6 @@ namespace TestBench2025.Core.Cards
         [SerializeField] private Image cardFront;
         [SerializeField] private Image cardBack;
         [SerializeField] private Image cardDesign;
-        
         
         private bool CanReveal => GameManager.Instance.LevelStarted && State == CardState.Hidden;
         public CardState State { get; private set; }
@@ -37,6 +35,11 @@ namespace TestBench2025.Core.Cards
             animator.Initialize();   
             cardBtn.onClick.AddListener(OnTap);
             ResetCard();
+        }
+        
+        private void OnDestroy()
+        {
+            cardBtn.onClick.RemoveListener(OnTap);
         }
         
         public void UpdateDesign(CardDesignData design)
@@ -88,11 +91,6 @@ namespace TestBench2025.Core.Cards
             animator.KillAnimation();
         }
 
-        private void OnDestroy()
-        {
-            cardBtn.onClick.RemoveListener(OnTap);
-        }
-
         private void UpdateCardColors(Color background, Color front, Color back)
         {
             cardBackground.color = background;
@@ -105,7 +103,6 @@ namespace TestBench2025.Core.Cards
             if (!CanReveal) return;
             SoundManager.Instance.Play(SFXName.CardFlip);
             State = CardState.Flipping;
-            OnCardFlipped?.Invoke(this);
             animator.FlipToFront(HandleRevealedCard);
         }
 
@@ -129,6 +126,5 @@ namespace TestBench2025.Core.Cards
             animator.FlipToBack(() => State = CardState.Hidden);
         }
 
-        
     }
 }

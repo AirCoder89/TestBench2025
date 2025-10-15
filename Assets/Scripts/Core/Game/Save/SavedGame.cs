@@ -11,7 +11,6 @@ namespace TestBench2025.Core.Game.Save
         public int coins;
         public int matches;
         public int attempts;
-        public bool levelInProgress;
     }
 
     [Serializable]

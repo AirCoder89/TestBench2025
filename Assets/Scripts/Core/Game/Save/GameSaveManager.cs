@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TestBench2025.Core.Board;
 using UnityEngine;
 
@@ -23,7 +24,6 @@ namespace TestBench2025.Core.Game.Save
                 coins = score.Coins,
                 matches = score.Matches,
                 attempts = score.Attempts,
-                levelInProgress = GameManager.Instance.LevelStarted
             };
             
             var savedCards = new List<SavedCard>();
@@ -56,7 +56,7 @@ namespace TestBench2025.Core.Game.Save
 
             var json = File.ReadAllText(SavePath);
             var data = JsonUtility.FromJson<SavedGame>(json);
-
+            data.cards = data.cards.OrderBy(c => c.index).ToList();
             return data;
         }
 

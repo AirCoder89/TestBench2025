@@ -9,7 +9,7 @@ namespace TestBench2025.Core.Game
     {
         public LevelDifficulty difficulty = LevelDifficulty.Easy;
         public float revealPreviewDuration = 2f;
-        
+        [Space(5)]
         public LayoutData layout;
         public LevelAppearance appearance;
     }

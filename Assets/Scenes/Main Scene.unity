@@ -978,6 +978,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: a037cb74882c043f3b9208677c30d152, type: 3}
   - name: 4
     clip: {fileID: 8300000, guid: c1c896509c1d147faa22b8b4dc901667, type: 3}
+  - name: 6
+    clip: {fileID: 8300000, guid: d44df35cb985d40abbec209e0334c31a, type: 3}
+  - name: 7
+    clip: {fileID: 8300000, guid: 00d346e55086d4b98ad78559f3bfd392, type: 3}
   audioSourcePrefab: {fileID: 2115491929033716347, guid: fedb2c38934e949d49b07524aa3af411, type: 3}
   initialPoolSize: 4
 --- !u!82 &97805666
@@ -3636,7 +3640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.19215687}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4152,7 +4156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6512,7 +6516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7572,6 +7576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMusicVolume: 0.8
   defaultSfxVolume: 0.8
+  defaultCardBackID: 6
   cardDesigns:
   - id: 6
     pattern: {fileID: 21300000, guid: 8c86daa23ca744d3aa26f0682e8c8454, type: 3}
@@ -7815,7 +7820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9170579888488190054, guid: 6f9cc621ce0a24f4f988271516673a22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ContinueLevel
+      value: RestartLevel
       objectReference: {fileID: 0}
     - target: {fileID: 9170579888488190054, guid: 6f9cc621ce0a24f4f988271516673a22, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -9884,7 +9889,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 0.5176471}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

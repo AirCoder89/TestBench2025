@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TestBench2025.Core.Game;
+using TestBench2025.Core.Game.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +42,7 @@ namespace TestBench2025.Core.UI.Views.Settings
             sfxVolume.onValueChanged.AddListener(_settings.SetSfxVolume);
 
             GenerateDesignItems();
-            
+            UpdateClearSaveButton();
             _isInitialized = true;
         }
 
@@ -87,12 +88,15 @@ namespace TestBench2025.Core.UI.Views.Settings
                 _selectedDesignItem.Deselect();
             }
 
+            SoundManager.Instance.Play(SFXName.Select);
             _selectedDesignItem = selectedItem;
+            _selectedDesignItem.Select();
             _settings.SetCardBack(_selectedDesignItem.CurrentData.id);
         }
         
         public void ResetSettings()
         {
+            SoundManager.Instance.Play(SFXName.ButtonClick);
             _settings.ResetSettings();
             musicVolume.SetValueWithoutNotify(_settings.MusicVolume);
             sfxVolume.SetValueWithoutNotify(_settings.SfxVolume);
@@ -114,6 +118,7 @@ namespace TestBench2025.Core.UI.Views.Settings
 
         public void ClearSaveGame()
         {
+            SoundManager.Instance.Play(SFXName.ButtonClick);
             GameManager.Instance.ClearSaveGame();
             UpdateClearSaveButton();
         }

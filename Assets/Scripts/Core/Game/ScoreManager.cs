@@ -11,10 +11,8 @@ namespace TestBench2025.Core.Game
         public int Matches { get; private set; }
         public int Coins { get; private set; }
 
-        [Header("Points Settings")]
+        [Header("Settings")]
         [SerializeField] private int baseMatchPoints = 100;
-        
-        [Header("Combo Settings")]
         [SerializeField] private float comboDuration = 3f; // seconds before combo breaks
         
         public event Action<int> OnCoinsChanged;
@@ -98,16 +96,20 @@ namespace TestBench2025.Core.Game
             _comboTimer = 0f;
         }
         
-        public void ResetScore()
+        public void ResetScore(bool resetCoins = true)
         {
             Attempts = 0;
             Matches = 0;
-            Coins = 0;
+            
             _comboCount = 0;
             _comboActive = false;
             _comboTimer = 0f;
 
-            OnCoinsChanged?.Invoke(Coins);
+            if (resetCoins)
+            {
+                Coins = 0;
+                OnCoinsChanged?.Invoke(Coins);
+            }
             OnProgressChanged?.Invoke(Matches, Attempts);
         }
 

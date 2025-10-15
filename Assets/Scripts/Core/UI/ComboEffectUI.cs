@@ -32,8 +32,7 @@ namespace TestBench2025.Core.UI
         
         private void Update()
         {
-            if (comboText.gameObject.activeSelf)
-            {
+            if (!comboText.gameObject.activeSelf) return;
                 comboText.transform.localScale = Vector3.Lerp(comboText.transform.localScale, Vector3.one, Time.deltaTime * 5f);
                 var color = comboText.color;
                 color.a = Mathf.Lerp(color.a, 0f, Time.deltaTime * 2f);
@@ -45,7 +44,6 @@ namespace TestBench2025.Core.UI
                     color.a = 1f;
                     comboText.color = color;
                 }
-            }
         }
     }
 }

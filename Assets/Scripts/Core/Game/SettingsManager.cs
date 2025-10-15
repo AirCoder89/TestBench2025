@@ -14,10 +14,12 @@ namespace TestBench2025.Core.Game
     
     internal class SettingsManager : MonoBehaviour
     {
+        [SerializeField] private List<CardDesignData> cardDesigns;
+        
+        [Header("Default Settings")]
         [SerializeField] [Range(0,1F)] private float defaultMusicVolume;
         [SerializeField] [Range(0,1F)] private float defaultSfxVolume;
         [SerializeField] private int defaultCardBackID = 6;
-        [SerializeField] private List<CardDesignData> cardDesigns;
         
         public event Action<float> OnMusicVolumeChanged;
         public event Action<float> OnSfxVolumeChanged;
@@ -32,6 +34,7 @@ namespace TestBench2025.Core.Game
         public float SfxVolume { get; private set; }
         public int CardBackID { get; private set; }
         public CardDesignData CardDesign { get; private set; }
+        
         public void Initialize()
         {
             MusicVolume = PlayerPrefs.GetFloat(MusicKey, defaultMusicVolume);

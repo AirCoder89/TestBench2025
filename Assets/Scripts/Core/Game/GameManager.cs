@@ -116,43 +116,16 @@ namespace TestBench2025.Core.Game
         #endregion
 
         #region Navigation
-        private void HandleLevelCompleted()
-        {
-            Unpause();
-            soundManager.Play(SFXName.LevelComplete);
-            
-            LevelStarted = false;
-            
-            ui.GetView<LevelCompleteView>(UIState.LevelComplete).Initialize(scoreManager);
-            ui.GoTo(UIState.LevelComplete);
-        }
-
-        public void StartEasyGame()
-        {
-            Unpause();
-            soundManager.Play(SFXName.ButtonClick);
-            
-            levelDifficulty = LevelDifficulty.Easy;
-            ui.GoTo(UIState.Gameplay);
-            StartLevel();
-        }
+        public void StartEasyGame() => StartLevelWithDifficulty(LevelDifficulty.Easy);
+        public void StartMediumGame() => StartLevelWithDifficulty(LevelDifficulty.Medium);
+        public void StartHardGame() => StartLevelWithDifficulty(LevelDifficulty.Hard);
         
-        public void StartMediumGame()
+        private void StartLevelWithDifficulty(LevelDifficulty difficulty)
         {
+            levelDifficulty = difficulty;
             Unpause();
-            soundManager.Play(SFXName.ButtonClick);
+            soundManager.Play(SFXName.Start);
             
-            levelDifficulty = LevelDifficulty.Medium;
-            ui.GoTo(UIState.Gameplay);
-            StartLevel();
-        }
-        
-        public void StartHardGame()
-        {
-            Unpause();
-            soundManager.Play(SFXName.ButtonClick);
-            
-            levelDifficulty = LevelDifficulty.Hard;
             ui.GoTo(UIState.Gameplay);
             StartLevel();
         }
@@ -160,6 +133,8 @@ namespace TestBench2025.Core.Game
         public void OpenMain()
         {
             Unpause();
+            soundManager.Play(SFXName.ButtonClick);
+            
             ui.GetView<MainView>(UIState.Main).UpdateButtonState(HasSaveGame);
             ui.GoTo(UIState.Main);
         }
@@ -167,6 +142,8 @@ namespace TestBench2025.Core.Game
         public void OpenSettings()
         {
             Unpause();
+            soundManager.Play(SFXName.ButtonClick);
+            
             ui.GetView<SettingsView>(UIState.Settings).Initialize(settingsManager);
             ui.GoTo(UIState.Settings);
         }
@@ -174,6 +151,8 @@ namespace TestBench2025.Core.Game
         public void ShowLevelSelect()
         {
             Unpause();
+            soundManager.Play(SFXName.ButtonClick);
+            
             ui.GoTo(UIState.LevelSelect);
         }
         
@@ -189,32 +168,29 @@ namespace TestBench2025.Core.Game
         public void ResumeGame()
         {
             Unpause();
-            ui.GoTo(UIState.Gameplay);
             soundManager.Play(SFXName.ButtonClick);
+            
+            ui.GoTo(UIState.Gameplay);
         }
         
         public void BackToPrevious()
         {
             Unpause();
+            soundManager.Play(SFXName.ButtonClick);
+            
             ui.Back();
         }
         
         public void RestartLevel()
         {
             Unpause();
+            soundManager.Play(SFXName.ButtonClick);
+            
             ui.GoTo(UIState.Gameplay);
             LevelStarted = false;
-            StartLevel();
+            StartLevel(false);
         }
 
-        public void ContinueLevel() //todo : do not reset score
-        {
-            Unpause();
-            ui.GoTo(UIState.Gameplay);
-            LevelStarted = false;
-            StartLevel();
-        }
-        
         private void Unpause()
         {
             Time.timeScale = 1f; 
@@ -223,10 +199,21 @@ namespace TestBench2025.Core.Game
         #endregion
 
         #region Level Management
-        private void StartLevel()
+        private void HandleLevelCompleted()
+        {
+            Unpause();
+            soundManager.Play(SFXName.LevelComplete);
+            
+            LevelStarted = false;
+            
+            ui.GetView<LevelCompleteView>(UIState.LevelComplete).Initialize(scoreManager);
+            ui.GoTo(UIState.LevelComplete);
+        }
+        
+        private void StartLevel(bool resetCoins = true)
         {
             LevelStarted = false;
-            scoreManager.ResetScore();
+            scoreManager.ResetScore(resetCoins);
             var levelData = GetLevelData(levelDifficulty);
             boardController.StartLevel(levelData);
         }
@@ -234,7 +221,6 @@ namespace TestBench2025.Core.Game
         private void HandleLevelReady()
         {
             LevelStarted = true;
-            Debug.Log("Level Started!");
         }
 
         private LevelData GetLevelData(LevelDifficulty difficulty)

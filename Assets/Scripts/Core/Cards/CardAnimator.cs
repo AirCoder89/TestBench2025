@@ -157,10 +157,9 @@ namespace TestBench2025.Core.Cards
             onComplete?.Invoke();
         }
         
-        
         private IEnumerator EntryReveal(float previewDuration, Action onComplete)
         {
-            if (!this || !gameObject) yield break;  // destroyed or disabled
+            if (!this || !gameObject) yield break; 
 
             FlipToFront();
 

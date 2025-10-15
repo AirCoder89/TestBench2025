@@ -20,7 +20,6 @@ namespace TestBench2025.Core.UI
     
     internal class UIStateMachine : MonoBehaviour
     {
-        [Header("Screen Canvases")]
         [SerializeField] private List<UICanvasView> allCanvases;
         
         [Header("Transition Settings")]
@@ -141,8 +140,6 @@ namespace TestBench2025.Core.UI
             if (!toBlack)
                 transitionCanvas.SetActive(false);
         }
-
-        public bool IsCurrent(UIState state) => _currentState == state;
 
         public void Back()
         {
