@@ -18,20 +18,32 @@ namespace TestBench2025.Core.Cards
         [SerializeField] private Image cardBackground;
         [SerializeField] private Image cardFront;
         [SerializeField] private Image cardBack;
+        [SerializeField] private Image cardDesign;
         
         
         private bool CanReveal => GameManager.Instance.LevelStarted && State == CardState.Hidden;
         public CardState State { get; private set; }
         public CardData Data { get; private set; }
+        private CardDesignData _currentDesign;
 
-        public void Initialize(CardData data, Color background, Color front, Color back)
+        public void Initialize(CardData data, CardDesignData design, Color background, Color front, Color back)
         {
+            _currentDesign = design;
+            UpdateDesign(design);
+            
             Data = data;
             cardSymbol.sprite = Data.symbol;
             UpdateCardColors(background, front, back);
             animator.Initialize();   
             cardBtn.onClick.AddListener(OnTap);
             ResetCard();
+        }
+        
+        public void UpdateDesign(CardDesignData design)
+        {
+            _currentDesign = design;
+            cardDesign.sprite = _currentDesign.pattern;
+            cardDesign.pixelsPerUnitMultiplier = design.pixelPerUnit;
         }
         
         public void ResetCard()

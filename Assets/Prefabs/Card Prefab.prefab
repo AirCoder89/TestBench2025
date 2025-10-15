@@ -109,6 +109,7 @@ MonoBehaviour:
   cardBackground: {fileID: 8849864532675332918}
   cardFront: {fileID: 7122042209622644545}
   cardBack: {fileID: 8849864531295351385}
+  cardDesign: {fileID: 8849864531295351385}
 --- !u!114 &82594076646571194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5a4113d51ec664888adc042448142407, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8c86daa23ca744d3aa26f0682e8c8454, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -208,7 +209,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 2
+  m_PixelsPerUnitMultiplier: 1.8
 --- !u!1 &8849864532302248773
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using TestBench2025.Core.Game.Audio;
 using TestBench2025.Core.Game.Save;
 using TestBench2025.Core.UI;
 using TestBench2025.Core.UI.Views;
+using TestBench2025.Core.UI.Views.Settings;
 using UnityEngine;
 
 namespace TestBench2025.Core.Game
@@ -24,59 +25,11 @@ namespace TestBench2025.Core.Game
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private SoundManager soundManager;
         [SerializeField] private GameSaveManager saveManager;
-        
-
+        [SerializeField] private SettingsManager settingsManager;
         
         public bool LevelStarted { get; private set; }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                Debug.Log("Saving game...");
-                SaveGame();
-            }
-
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                Debug.Log("Loading game...");
-                LoadGame();
-            }
-            
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                Debug.Log("Clearing save...");
-                saveManager.DeleteSave();
-            }
-        }
-
-        public void SaveGame()
-        {
-            saveManager.SaveGame(levelDifficulty, scoreManager, boardController);
-            ResumeGame();
-        }
-        
-        public void LoadGame()
-        {
-            if(!saveManager.HasSave())
-            {
-                Debug.Log("No saved game to load.");
-                return;
-            }
-            
-            Unpause();
-            ui.GoTo(UIState.Gameplay);
-            var savedGame = saveManager.LoadGame();
-            if (savedGame == null) return;
-            levelDifficulty = (LevelDifficulty) savedGame.difficulty;
-            var levelData = GetLevelData(levelDifficulty);
-            
-            scoreManager.ResetScore();
-            scoreManager.LoadState(savedGame);
-            
-            boardController.StartSavedLevel(levelData, savedGame);
-        }
-        
+        #region Initialization
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -95,11 +48,11 @@ namespace TestBench2025.Core.Game
                 return;
             }
             
-            soundManager.Initialize();
+            settingsManager.Initialize();
+            soundManager.Initialize(settingsManager);
             soundManager.StartMusic();
-            boardController.Initialize();
+            boardController.Initialize(settingsManager);
             scoreManager.Initialize();
-
             InitializeUI();
         }
         
@@ -108,7 +61,7 @@ namespace TestBench2025.Core.Game
             ui.Initialize();
             ui.GoTo(UIState.Main);
             ui.GetView<GameplayView>(UIState.Gameplay).Initialize(scoreManager);
-            ui.GetView<MainView>(UIState.Main).UpdateButtonState(saveManager.HasSave());
+            ui.GetView<MainView>(UIState.Main).UpdateButtonState(HasSaveGame);
         }
         
         private void OnEnable()
@@ -122,7 +75,47 @@ namespace TestBench2025.Core.Game
             boardController.OnLevelReady -= HandleLevelReady;
             boardController.OnLevelCompleted -= HandleLevelCompleted;
         }
+        #endregion
+
+        #region Save/Load
+
+        public bool HasSaveGame => saveManager.HasSave();
+        public void SaveGame()
+        {
+            saveManager.SaveGame(levelDifficulty, scoreManager, boardController);
+            ResumeGame();
+        }
         
+        public void LoadGame()
+        {
+            if(!HasSaveGame)
+            {
+                Debug.Log("No saved game to load.");
+                return;
+            }
+            
+            Unpause();
+            ui.GoTo(UIState.Gameplay);
+            var savedGame = saveManager.LoadGame();
+            if (savedGame == null) return;
+            levelDifficulty = (LevelDifficulty) savedGame.difficulty;
+            var levelData = GetLevelData(levelDifficulty);
+            
+            scoreManager.ResetScore();
+            scoreManager.LoadState(savedGame);
+            
+            boardController.StartSavedLevel(levelData, savedGame);
+        }
+        
+        public void ClearSaveGame()
+        {
+            if(!HasSaveGame) return;
+            saveManager.DeleteSave();
+        }
+
+        #endregion
+
+        #region Navigation
         private void HandleLevelCompleted()
         {
             Unpause();
@@ -167,13 +160,14 @@ namespace TestBench2025.Core.Game
         public void OpenMain()
         {
             Unpause();
-            ui.GetView<MainView>(UIState.Main).UpdateButtonState(saveManager.HasSave());
+            ui.GetView<MainView>(UIState.Main).UpdateButtonState(HasSaveGame);
             ui.GoTo(UIState.Main);
         }
         
         public void OpenSettings()
         {
             Unpause();
+            ui.GetView<SettingsView>(UIState.Settings).Initialize(settingsManager);
             ui.GoTo(UIState.Settings);
         }
 
@@ -185,7 +179,7 @@ namespace TestBench2025.Core.Game
         
         public void PauseGame()
         {
-            ui.GetView<PauseMenuView>(UIState.Pause).UpdateButtonState(saveManager.HasSave());
+            ui.GetView<PauseMenuView>(UIState.Pause).UpdateButtonState(HasSaveGame);
             ui.GoTo(UIState.Pause);
             soundManager.Play(SFXName.ButtonClick);
             soundManager.PauseMusic();
@@ -226,7 +220,9 @@ namespace TestBench2025.Core.Game
             Time.timeScale = 1f; 
             soundManager.ResumeMusic();
         }
-        
+        #endregion
+
+        #region Level Management
         private void StartLevel()
         {
             LevelStarted = false;
@@ -252,5 +248,7 @@ namespace TestBench2025.Core.Game
             Debug.LogError($"No level data found for difficulty {difficulty}");
             return null;
         }
+        #endregion
+       
     }
 }

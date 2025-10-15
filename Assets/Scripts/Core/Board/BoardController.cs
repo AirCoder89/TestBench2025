@@ -44,9 +44,12 @@ namespace TestBench2025.Core.Board
         private CardController _pendingCard;
         private readonly Queue<CardPair> _pendingPairs = new();
         private bool _isProcessing;
+        private SettingsManager _settings;
 
-        public void Initialize()
+        public void Initialize(SettingsManager settings)
         {
+            _settings = settings;
+            _settings.OnCardBackChanged += builder.UpdateCardBacks;
             CardController.OnCardRevealed += HandleCardRevealed;
             builder.OnLevelReady += OnLevelReady;
             builder.Initialize();
@@ -54,6 +57,7 @@ namespace TestBench2025.Core.Board
         
         private void OnDestroy()
         {
+            _settings.OnCardBackChanged -= builder.UpdateCardBacks;
             CardController.OnCardRevealed -= HandleCardRevealed;
             builder.OnLevelReady -= OnLevelReady;
         }
@@ -68,7 +72,7 @@ namespace TestBench2025.Core.Board
             topBarImage.color = levelData.appearance.topBarColor;
             backButtonImage.color = levelData.appearance.buttonColor;
             pauseButtonImage.color = levelData.appearance.buttonColor;
-            builder.Build(levelData);
+            builder.Build(levelData, _settings.CardDesign);
         }
         
         public void StartSavedLevel(LevelData levelData, SavedGame savedGame)
@@ -81,7 +85,7 @@ namespace TestBench2025.Core.Board
             topBarImage.color = levelData.appearance.topBarColor;
             backButtonImage.color = levelData.appearance.buttonColor;
             pauseButtonImage.color = levelData.appearance.buttonColor;
-            builder.BuildFromSave(levelData, savedGame);
+            builder.BuildFromSave(levelData, savedGame , _settings.CardDesign);
         }
 
         private void HandleCardRevealed(CardController card)

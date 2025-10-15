@@ -42,7 +42,7 @@ namespace TestBench2025.Core.Board
             _cardPool = new ObjectPool<CardController>(cardPrefab, preloadCount, transform);
         }
 
-        public void Build(LevelData levelData)
+        public void Build(LevelData levelData, CardDesignData cardDesign)
         {
             ClearGrid();
             
@@ -61,7 +61,7 @@ namespace TestBench2025.Core.Board
             {
                 var cardData = cardsToUse[i];
                 var card = _cardPool.Get();
-                card.Initialize(cardData, levelData.appearance.backgroundColor, levelData.appearance.frontColor, levelData.appearance.backColor);
+                card.Initialize(cardData, cardDesign, levelData.appearance.backgroundColor, levelData.appearance.frontColor, levelData.appearance.backColor);
                 generatedCards.Add(card);
             }
 
@@ -70,7 +70,7 @@ namespace TestBench2025.Core.Board
             StartCoroutine(PlayEntrySequence());
         }
         
-        public void BuildFromSave(LevelData levelData, SavedGame save)
+        public void BuildFromSave(LevelData levelData, SavedGame save, CardDesignData cardDesign)
         {
             ClearGrid();
             
@@ -83,7 +83,7 @@ namespace TestBench2025.Core.Board
                 var saveCard = save.cards[i];
                 var cardData = GetCardDataById(saveCard.cardId);
                 var card = _cardPool.Get();
-                card.Initialize(cardData, levelData.appearance.backgroundColor, levelData.appearance.frontColor, levelData.appearance.backColor);
+                card.Initialize(cardData, cardDesign, levelData.appearance.backgroundColor, levelData.appearance.frontColor, levelData.appearance.backColor);
                 card.SetState((CardState)saveCard.state);
                 generatedCards.Add(card);
             }
@@ -168,6 +168,14 @@ namespace TestBench2025.Core.Board
             GridLayout.spacing = layout.spacing;
             GridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             GridLayout.constraintCount = layout.columns;
+        }
+
+        public void UpdateCardBacks(CardDesignData selectedPattern)
+        {
+            foreach (var card in _activeCards)
+            {
+                card.UpdateDesign(selectedPattern);
+            }
         }
     }
 }
