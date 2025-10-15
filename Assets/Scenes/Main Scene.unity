@@ -7574,9 +7574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd11f8d0df643e189f9aafa23e7cb92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMusicVolume: 0.8
-  defaultSfxVolume: 0.8
-  defaultCardBackID: 6
   cardDesigns:
   - id: 6
     pattern: {fileID: 21300000, guid: 8c86daa23ca744d3aa26f0682e8c8454, type: 3}
@@ -7605,6 +7602,9 @@ MonoBehaviour:
   - id: 8
     pattern: {fileID: 21300000, guid: 9c9ae00989259445d9b20c685e34cb10, type: 3}
     pixelPerUnit: 2.5
+  defaultMusicVolume: 0.3
+  defaultSfxVolume: 0.7
+  defaultCardBackID: 6
 --- !u!1 &1651412645
 GameObject:
   m_ObjectHideFlags: 0
